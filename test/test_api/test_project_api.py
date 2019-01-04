@@ -64,7 +64,7 @@ class TestProjectAPI(TestAPI):
         project1 = ProjectFactory.create(updated='2015-01-01T14:37:30.642119', info={'total': 150, 'task_presenter': 'foo'})
         projects = ProjectFactory.create_batch(8, info={'total': 150, 'task_presenter': 'foo'})
 
-        project2 = ProjectFactory.create(updated='2019-01-01T14:37:30.642119', info={'total': 150, 'task_presenter': 'foo'})
+        project2 = ProjectFactory.create(updated='3019-01-01T14:37:30.642119', info={'total': 150, 'task_presenter': 'foo'})
         projects.insert(0, project1)
         projects.append(project2)
         res = self.app.get('/api/project')
@@ -119,7 +119,7 @@ class TestProjectAPI(TestAPI):
         res = self.app.get(url)
         data = json.loads(res.data)
         err_msg = "It should get the last item first."
-        assert data[0]['updated'] == projects[len(projects)-1].updated, err_msg
+        assert data[0]['updated'] == projects[len(projects)-1].updated, (err_msg, data)
 
         # Orderby filter
         url = "/api/project?orderby=id&desc=true"
@@ -934,7 +934,7 @@ class TestProjectAPI(TestAPI):
         # Get an empty task
         url = '/api/project/%s/newtask?offset=1000' % project.id
         res = self.app.get(url)
-        assert res.data == '{}', res.data
+        assert res.data == b'{}', res.data
 
     @with_context
     @patch('pybossa.repositories.project_repository.uploader')
