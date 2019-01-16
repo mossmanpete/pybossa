@@ -22,7 +22,7 @@ before_install:
 - cd pybossa && ln -s themes/default/translations && cd ..
 install:
 - pip install -U pip
-- pip install -r requirements.txt
+- pip install -e .
 before_script:
 - redis-cli info
 - redis-cli set foo 1
